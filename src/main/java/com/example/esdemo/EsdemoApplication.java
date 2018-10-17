@@ -43,6 +43,12 @@ public class EsdemoApplication {
         return "addPeople";
     }
 
+    //联合查询
+    @GetMapping("/queryBool")
+    public String query(){
+        return "queryPeople";
+    }
+
     /**
      * 根据ID查询
      * @param id
@@ -130,7 +136,7 @@ public class EsdemoApplication {
     public ResponseEntity update(@RequestParam(name = "id") String id,
                                  @RequestParam(name = "name", required = false) String name,
                                  @RequestParam(name = "age", required = false) Integer age,
-                                 @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date date,
+                                 @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
                                  @RequestParam(name = "country", required = false) String country){
         UpdateRequest update = new UpdateRequest("people", "man", id);
         try {
@@ -182,7 +188,8 @@ public class EsdemoApplication {
     public ResponseEntity query(
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "gt_age", defaultValue = "0") Integer minAge,
-            @RequestParam(name = "lt_age", required = false) Integer maxAge
+            @RequestParam(name = "gt_age", required = false) Integer maxAge,
+            @RequestParam(name = "country", required = false) String country
     ){
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         if(null != name){
